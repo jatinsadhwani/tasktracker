@@ -1,0 +1,69 @@
+<%= if @current_user do %>
+<div class="col">
+  <div class="row">
+      <%= render TasktrackerWeb.TaskView, "form.html", Map.put(assigns, :action, task_path(@conn, :create)) %>
+  </div>
+</div>
+
+<% end %>
+<script>
+  function complete(x){
+    var final = "/tasks/"+x+"/edit"
+    window.location.replace(final)
+  }
+
+
+</script>
+
+<h1> Your Tasks </h1>
+
+<div class="row">
+  <div class="col-2">
+    <h4> Title</h4>
+  </div>
+  <div class="col-2">
+    <h4> Description</h4>
+  </div>
+  <div class="col-2">
+    <h4> Status</h4>
+  </div>
+  <div class="col-2">
+    <h4> Time</h4>
+  </div>
+</div>
+
+
+<%= Enum.map Enum.filter(@tasks, fn(task) -> task.user_id == @current_user.id end), fn task -> %>
+<div class="row">
+  <div class="col-2">
+    <strong><%= task.title %></strong>
+  </div>
+  <div class="col-2">
+    <p><%= task.description %></p>
+  </div>
+  <%=if task.status==true do %>
+  <div class="col-2">
+    <p>Complete</p>
+  </div>
+  <% end %>
+  <%=if task.status==false do %>
+  <div class="col-2">
+    <p>Incomplete</p>
+  </div>
+  <% end %>
+  <%=if task.time==0 do %>
+  <div class="col-2">
+    <p>N/A</p>
+  </div>
+  <% end %>
+  <%=if task.time>0 do %>
+  <div class="col-2">
+    <p><%= task.time %></p>
+  </div>
+  <% end %>
+  <div class="col-2">
+    <button onclick="complete(<%= task.id %>)"> Change Status</button>
+  </div>
+</div>
+
+<% end %>

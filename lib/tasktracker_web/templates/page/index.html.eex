@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col">
+    <h1>Welcome to Task Tracker</h1>
+    <%= form_tag("/session", method: :create) do %>
+    <div class="form-group">
+      Email
+      <input type="email" name="email" placeholder="user@example.com">
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-primary"> Log In</button>
+      <%= link "Register", to: user_path(@conn, :new) %>
+    </div>
+    <% end %>
+  </div>
+</div>
